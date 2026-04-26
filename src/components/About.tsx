@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { useCountUp } from '../hooks/useCountUp'
 import { useLang } from '../i18n/LangContext'
+import { ArrowUpRight } from './Icons'
 
 const TOOLS_LIST = [
   { keyName: 'AI 工具', en: 'AI Tools', items: ['ChatGPT', 'Claude', 'Gemini', 'DeepSeek', 'Kimi', 'Perplexity', 'NotebookLM', 'Suno', 'MidJourney'] },
@@ -13,13 +13,6 @@ export default function About() {
   const { t } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
-
-  const stats = [
-    { value: 42000, suffix: '+', label: t.about.stat1Label },
-    { value: 500, suffix: '+', label: t.about.stat2Label },
-    { value: 212, suffix: '%', label: t.about.stat3Label, divisor: 10 },
-  ]
-
   const titles = [t.about.toolsTitle1, t.about.toolsTitle2, t.about.toolsTitle3]
 
   return (
@@ -49,95 +42,95 @@ export default function About() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-12">
-          {/* Bio */}
+        <div className="grid grid-cols-12 gap-12 items-start">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="col-span-12 md:col-span-5"
+            className="col-span-12 lg:col-span-7"
           >
-            <p
-              className="font-sans text-lg"
-              style={{ color: 'var(--ink)', lineHeight: 1.7, fontWeight: 400 }}
+            <div className="max-w-3xl">
+              <p
+                className="font-sans text-[22px]"
+                style={{ color: 'var(--ink)', lineHeight: 1.65, fontWeight: 450 }}
+              >
+                {t.about.bio}
+              </p>
+              <p
+                className="font-sans text-base mt-8 max-w-2xl"
+                style={{ color: 'var(--muted)', lineHeight: 1.9 }}
+              >
+                {t.about.bioSecondary}
+              </p>
+            </div>
+
+            <div
+              className="mt-12 pt-8 flex flex-wrap items-center gap-4 border-t"
+              style={{ borderColor: 'var(--border)' }}
             >
-              {t.about.bio}
-            </p>
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
+                PDF / Resume
+              </span>
+              <button
+                type="button"
+                className="btn-ghost inline-flex items-center gap-2"
+                style={{ padding: '12px 22px' }}
+              >
+                {t.about.resumeButton}
+                <ArrowUpRight size={14} />
+              </button>
+            </div>
           </motion.div>
 
-          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="col-span-12 md:col-span-3 flex flex-col gap-8"
+            className="col-span-12 lg:col-span-5"
           >
-            {stats.map((stat, i) => (
-              <StatItem key={i} stat={stat} trigger={inView} delay={i * 200} />
-            ))}
-          </motion.div>
-
-          {/* Tools */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="col-span-12 md:col-span-4"
-          >
-            {TOOLS_LIST.map((category, i) => (
-              <div key={category.keyName} className="mb-8">
-                <p className="font-mono text-[10px] mb-3 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
-                  {titles[i]}
+            <div
+              className="p-8 md:p-10"
+              style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '6px' }}
+            >
+              <div className="mb-10">
+                <p className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
+                  {t.about.courseTitle}
                 </p>
-                <div className="flex flex-wrap gap-x-3 gap-y-1">
-                  {category.items.map(tool => (
-                    <span
-                      key={tool}
-                      className="font-mono text-xs cursor-default transition-colors"
-                      style={{ color: 'var(--muted)', lineHeight: 2 }}
-                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-                      onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-                    >
-                      {tool}
+                <div className="flex flex-wrap gap-3">
+                  {t.about.courseList.map((course) => (
+                    <span key={course} className="pill" style={{ padding: '8px 14px', fontSize: '12px', color: 'var(--ink)' }}>
+                      {course}
                     </span>
                   ))}
                 </div>
               </div>
-            ))}
+
+              {TOOLS_LIST.map((category, i) => (
+                <div
+                  key={category.keyName}
+                  className={i === TOOLS_LIST.length - 1 ? '' : 'mb-8 pb-8 border-b'}
+                  style={{ borderColor: 'var(--border)' }}
+                >
+                  <p className="font-mono text-[10px] mb-3 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
+                    {titles[i]}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {category.items.map(tool => (
+                      <span
+                        key={tool}
+                        className="pill"
+                        style={{ padding: '7px 12px', fontSize: '11px' }}
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
     </section>
-  )
-}
-
-function StatItem({ stat, trigger, delay }: {
-  stat: { value: number; suffix: string; label: string; divisor?: number }
-  trigger: boolean
-  delay: number
-}) {
-  const [started, setStarted] = useState(false)
-  const displayValue = useCountUp(stat.value, 1500, started)
-
-  useEffect(() => {
-    if (trigger) {
-      const t = setTimeout(() => setStarted(true), delay)
-      return () => clearTimeout(t)
-    }
-  }, [trigger, delay])
-
-  const formatted = stat.divisor
-    ? (displayValue / stat.divisor).toFixed(1)
-    : displayValue.toLocaleString()
-
-  return (
-    <div>
-      <div className="font-display font-bold mb-1" style={{ color: 'var(--ink)', fontSize: '40px', lineHeight: 1, letterSpacing: '-0.04em' }}>
-        {formatted}<span style={{ color: 'var(--accent)' }}>{stat.suffix}</span>
-      </div>
-      <div className="font-sans text-xs" style={{ color: 'var(--muted)', lineHeight: 1.5 }}>
-        {stat.label}
-      </div>
-    </div>
   )
 }

@@ -66,7 +66,7 @@ export default function Hero() {
             backgroundPosition: 'center',
             backgroundColor: '#0c0c10',
             opacity: activeBgIndex === index ? 1 : 0,
-            transition: 'opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+            transition: 'opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1)',
           }}
         />
       ))}

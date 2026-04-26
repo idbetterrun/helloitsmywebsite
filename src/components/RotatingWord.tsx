@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export const ROTATING_WORD_INTERVAL = 3400
+export const ROTATING_WORD_INTERVAL = 4600
 
 interface Props {
   words: readonly string[]
@@ -34,7 +34,7 @@ export function RotatingWord({ words, color = 'var(--accent)', interval = ROTATI
           initial={{ y: '110%' }}
           animate={{ y: '0%' }}
           exit={{ y: '-110%' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.78, ease: [0.22, 1, 0.36, 1] }}
           style={{ display: 'block', color }}
         >
           {words[index]}
