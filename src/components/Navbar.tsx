@@ -28,19 +28,22 @@ export default function Navbar({ darkMode, toggleDark }: NavbarProps) {
   }, [])
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = []
-    sections.forEach(({ id }) => {
-      const el = document.getElementById(id)
-      if (!el) return
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { threshold: 0.3 }
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
-    return () => observers.forEach(o => o.disconnect())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const ids = ['hero', 'about', 'skills', 'projects', 'experience', 'contact']
+    const update = () => {
+      // "active" = topmost section whose top edge has passed 40 % down the viewport
+      const threshold = window.scrollY + window.innerHeight * 0.4
+      let current = 'hero'
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top + window.scrollY <= threshold) {
+          current = id
+        }
+      }
+      setActive(current)
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update() // set correct state on mount without waiting for a scroll event
+    return () => window.removeEventListener('scroll', update)
   }, [])
 
   const scrollTo = (id: string) => {

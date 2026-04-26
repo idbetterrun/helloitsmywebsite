@@ -15,9 +15,10 @@ export const translations = {
     // Hero
     hero: {
       eyebrow: '01 / 简介',
-      headlinePrefix: '我用（',
+      headlinePrefix: '我用',
       rotatingWords: ['语言', '设计', 'AI工具'] as const,
-      headlineSuffix: '），把好产品送到世界各地。',
+      headlineSuffix: '，',
+      headlineLine2: '把好产品送到世界各地。',
       ctaPrimary: '联系我',
       ctaSecondary: '查看项目',
     },
@@ -100,9 +101,9 @@ export const translations = {
     // Contact
     contact: {
       eyebrow: '06 / 联系',
-      headingPrefix: '正在寻找（',
+      headingPrefix: '正在寻找',
       rotatingWords: ['外贸销售', '海外运营', '跨境电商'] as const,
-      headingSuffix: '）方向的机会，',
+      headingSuffix: '方向的机会，',
       headingTwo: '欢迎随时联系。',
       sub: '目前重点寻找实习机会，也开放远程合作与项目协作。',
       copy: '点击复制',
@@ -149,7 +150,8 @@ export const translations = {
       eyebrow: '01 / Intro',
       headlinePrefix: 'Across borders, with ',
       rotatingWords: ['words', 'design', 'AI'] as const,
-      headlineSuffix: ' — moving good products to the world.',
+      headlineSuffix: ' —',
+      headlineLine2: 'moving good products to the world.',
       ctaPrimary: 'Get in touch',
       ctaSecondary: 'See projects',
     },

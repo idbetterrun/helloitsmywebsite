@@ -77,17 +77,25 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.25, ease: [0.23, 1, 0.32, 1] }}
-          className="font-serif font-bold leading-tight mb-14"
+          className="font-serif font-bold mb-14"
           style={{
             fontSize: 'clamp(28px, 4vw, 54px)',
             color: '#ffffff',
             letterSpacing: '-0.02em',
             maxWidth: '860px',
+            lineHeight: 1.25,
           }}
         >
-          {t.hero.headlinePrefix}
-          <RotatingWord words={t.hero.rotatingWords} color="var(--accent)" />
-          {t.hero.headlineSuffix}
+          {/* Line 1: rotating word */}
+          <span style={{ display: 'block' }}>
+            {t.hero.headlinePrefix}
+            <RotatingWord words={t.hero.rotatingWords} color="var(--accent)" />
+            {t.hero.headlineSuffix}
+          </span>
+          {/* Line 2: static, no jitter */}
+          <span style={{ display: 'block' }}>
+            {t.hero.headlineLine2}
+          </span>
         </motion.h1>
 
         {/* Glass CTA buttons */}

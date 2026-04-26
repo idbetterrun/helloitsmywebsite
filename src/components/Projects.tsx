@@ -116,7 +116,9 @@ export default function Projects() {
     }
   }, [])
 
-  const scrollBy = (delta: number) => {
+  const scrollTrack = (delta: number) => {
+    cancelAnimationFrame(momentumRef.current)   // stop any ongoing momentum
+    velocity.current = 0
     trackRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
   }
 
@@ -135,7 +137,7 @@ export default function Projects() {
 
         <div className="flex gap-2">
           <button
-            onClick={() => scrollBy(-500)}
+            onClick={() => scrollTrack(-500)}
             className="w-11 h-11 flex items-center justify-center rounded-full border transition-all"
             style={{ borderColor: 'var(--border)', color: 'var(--ink)' }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
@@ -144,7 +146,7 @@ export default function Projects() {
             <ArrowRight size={14} className="rotate-180" />
           </button>
           <button
-            onClick={() => scrollBy(500)}
+            onClick={() => scrollTrack(500)}
             className="w-11 h-11 flex items-center justify-center rounded-full border transition-all"
             style={{ borderColor: 'var(--border)', color: 'var(--ink)' }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
@@ -157,9 +159,11 @@ export default function Projects() {
 
       <div
         ref={trackRef}
-        className="flex gap-6 overflow-x-auto"
+        className="flex gap-6"
         style={{
+          overflowX: 'scroll',
           scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           cursor: 'grab',
           paddingLeft: 'max(32px, calc((100vw - 1400px) / 2 + 32px))',
           paddingRight: 'max(32px, calc((100vw - 1400px) / 2 + 32px))',

@@ -7,7 +7,7 @@ interface Props {
   interval?: number
 }
 
-export function RotatingWord({ words, color = 'var(--accent)', interval = 2400 }: Props) {
+export function RotatingWord({ words, color = 'var(--accent)', interval = 3400 }: Props) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function RotatingWord({ words, color = 'var(--accent)', interval = 2400 }
           initial={{ y: '110%' }}
           animate={{ y: '0%' }}
           exit={{ y: '-110%' }}
-          transition={{ duration: 0.38, ease: [0.23, 1, 0.32, 1] }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           style={{ display: 'block', color }}
         >
           {words[index]}

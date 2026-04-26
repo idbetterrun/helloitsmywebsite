@@ -36,14 +36,17 @@ export default function Contact() {
           className="mb-16 max-w-4xl"
         >
           <div className="section-eyebrow mb-8">{t.contact.eyebrow}</div>
-          <h2 className="section-heading">
-            <span>
+          <h2 className="section-heading" style={{ lineHeight: 1.15 }}>
+            {/* Line 1: rotating — isolated so width changes don't reflow line 2 */}
+            <span style={{ display: 'block' }}>
               {t.contact.headingPrefix}
               <RotatingWord words={t.contact.rotatingWords} />
               {t.contact.headingSuffix}
             </span>
-            <br />
-            <span style={{ color: 'var(--accent)' }}>{t.contact.headingTwo}</span>
+            {/* Line 2: static accent line */}
+            <span style={{ display: 'block', color: 'var(--accent)' }}>
+              {t.contact.headingTwo}
+            </span>
           </h2>
           <p className="font-sans text-base mt-6" style={{ color: 'var(--muted)' }}>
             {t.contact.sub}
