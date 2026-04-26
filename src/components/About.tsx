@@ -10,7 +10,7 @@ const TOOLS_LIST = [
 ]
 
 export default function About() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
