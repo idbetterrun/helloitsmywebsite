@@ -136,7 +136,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex justify-between items-center pt-8 mt-4 border-t" style={{ borderColor: 'var(--border)' }}>
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
-            {t.footer.year} · CHANGSHA, CN
+            {t.footer.year}
           </p>
           <button
             onClick={toggleLang}

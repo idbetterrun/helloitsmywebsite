@@ -34,6 +34,19 @@ export default function About() {
         >
           <div className="section-eyebrow mb-8">{t.about.eyebrow}</div>
           <h2 className="section-heading">{t.about.heading}</h2>
+
+          {/* Meta strip — info moved from Hero */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8">
+            {[t.about.metaLabel1, t.about.metaLabel2, t.about.metaLabel3, t.about.meta].map((item) => (
+              <span
+                key={item}
+                className="font-mono text-[10px] tracking-[0.18em] uppercase"
+                style={{ color: 'var(--muted)' }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-12 gap-12">

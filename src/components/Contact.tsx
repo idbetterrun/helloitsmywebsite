@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useLang } from '../i18n/LangContext'
 import { ArrowUpRight } from './Icons'
+import { RotatingWord } from './RotatingWord'
 
 export default function Contact() {
   const { t } = useLang()
@@ -36,7 +37,11 @@ export default function Contact() {
         >
           <div className="section-eyebrow mb-8">{t.contact.eyebrow}</div>
           <h2 className="section-heading">
-            {t.contact.heading}
+            <span>
+              {t.contact.headingPrefix}
+              <RotatingWord words={t.contact.rotatingWords} />
+              {t.contact.headingSuffix}
+            </span>
             <br />
             <span style={{ color: 'var(--accent)' }}>{t.contact.headingTwo}</span>
           </h2>
