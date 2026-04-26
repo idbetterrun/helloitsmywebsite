@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLang } from '../i18n/LangContext'
 import { ArrowUpRight } from './Icons'
-import { RotatingWord } from './RotatingWord'
+import { RotatingWord, ROTATING_WORD_INTERVAL } from './RotatingWord'
 
 const TOOLS = [
   'ChatGPT', 'Claude', 'Gemini', 'DeepSeek', 'Canva', 'Electron', 'React',
   'MidJourney', 'Notion', 'Instagram', 'Perplexity', 'NotebookLM', 'Suno',
   'Affinity', 'Kimi', 'Discord', 'Facebook', 'Vite', 'Node.js',
 ]
+
+const HERO_BACKGROUNDS = ['/hero-bg1.webp', '/hero-bg2.webp', '/hero-bg3.webp'] as const
 
 export default function Hero() {
   const { t } = useLang()
@@ -19,6 +21,7 @@ export default function Hero() {
   const speedRef = useRef(1)        // px per frame
   const rafRef = useRef(0)
   const [activeTool, setActiveTool] = useState<string | null>(null)
+  const [activeBgIndex, setActiveBgIndex] = useState(0)
 
   useEffect(() => {
     const track = marqueeRef.current
@@ -39,6 +42,13 @@ export default function Hero() {
     }
   }, [])
 
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setActiveBgIndex(i => (i + 1) % HERO_BACKGROUNDS.length)
+    }, ROTATING_WORD_INTERVAL)
+    return () => window.clearInterval(id)
+  }, [])
+
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
@@ -46,15 +56,20 @@ export default function Hero() {
     <section id="hero" className="relative min-h-screen flex flex-col">
 
       {/* Full-screen background — replace /hero-bg.jpg with your photo */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundColor: '#0c0c10',
-        }}
-      />
+      {HERO_BACKGROUNDS.map((background, index) => (
+        <div
+          key={background}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${background})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundColor: '#0c0c10',
+            opacity: activeBgIndex === index ? 1 : 0,
+            transition: 'opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        />
+      ))}
       {/* Overlay for readability */}
       <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.52)' }} />
 

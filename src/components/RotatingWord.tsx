@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+export const ROTATING_WORD_INTERVAL = 3400
+
 interface Props {
   words: readonly string[]
   color?: string
   interval?: number
 }
 
-export function RotatingWord({ words, color = 'var(--accent)', interval = 3400 }: Props) {
+export function RotatingWord({ words, color = 'var(--accent)', interval = ROTATING_WORD_INTERVAL }: Props) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
