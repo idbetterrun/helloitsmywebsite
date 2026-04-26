@@ -57,10 +57,15 @@ export default function AIAssistant() {
         body: JSON.stringify({ messages: newMessages, lang }),
       })
       const data = await res.json()
+      if (!res.ok) {
+        const errorMessage = [data.error, data.details].filter(Boolean).join(' - ')
+        throw new Error(errorMessage || 'Request failed')
+      }
       const reply = data.choices?.[0]?.message?.content || t.ai.defaultReply
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: t.ai.networkError }])
+    } catch (error) {
+      const message = error instanceof Error && error.message ? error.message : t.ai.networkError
+      setMessages(prev => [...prev, { role: 'assistant', content: message }])
     } finally {
       setLoading(false)
     }

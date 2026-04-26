@@ -15,6 +15,9 @@ const SYSTEM_PROMPT = `你是谭清华的个人网站AI助手。谭清华是一�
 
 只回答关于谭清华的问题。用中文回答，简洁友好。如果被问到无关问题，礼貌引导回到介绍谭清华。`
 
+const MINIMAX_API_URL = 'https://api.minimax.io/v1/chat/completions'
+const MINIMAX_MODEL = process.env.MINIMAX_MODEL || 'MiniMax-M2.7'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -27,31 +30,42 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
+    if (!process.env.MINIMAX_API_KEY) {
+      return res.status(500).json({ error: 'Missing MINIMAX_API_KEY' })
+    }
+
+    const response = await fetch(MINIMAX_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+        'Authorization': `Bearer ${process.env.MINIMAX_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'deepseek-chat',
+        model: MINIMAX_MODEL,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           ...messages,
         ],
         stream: false,
-        max_tokens: 300,
+        max_completion_tokens: 300,
       }),
     })
 
     if (!response.ok) {
-      throw new Error(`DeepSeek API error: ${response.status}`)
+      const errorText = await response.text()
+      return res.status(response.status).json({
+        error: `MiniMax API error: ${response.status}`,
+        details: errorText,
+      })
     }
 
     const data = await response.json()
     return res.json(data)
   } catch (err) {
     console.error(err)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(500).json({
+      error: 'Internal server error',
+      details: err instanceof Error ? err.message : String(err),
+    })
   }
 }
