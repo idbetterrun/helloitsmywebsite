@@ -95,14 +95,15 @@ export default function About() {
               <span className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
                 PDF / Resume
               </span>
-              <button
-                type="button"
+              <a
+                href="/Tan Qinghua's resume.pdf"
+                download
                 className="btn-ghost inline-flex items-center gap-2"
                 style={{ padding: '12px 22px' }}
               >
                 {t.about.resumeButton}
                 <ArrowUpRight size={14} />
-              </button>
+              </a>
             </div>
           </motion.div>
 

@@ -14,23 +14,28 @@ interface StatDisplay {
 
 function AnimatedStat({ value, label, suffix, format }: StatDisplay) {
   const [display, setDisplay] = useState(0)
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   const runCount = useCallback(() => {
-    const start = Math.floor(Math.random() * value)
-    const duration = 600
+    const duration = 800
     const startTime = performance.now()
     const animate = (t: number) => {
       const progress = Math.min((t - startTime) / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      setDisplay(Math.floor(start + (value - start) * eased))
+      setDisplay(Math.floor(value * eased))
       if (progress < 1) requestAnimationFrame(animate)
       else setDisplay(value)
     }
     requestAnimationFrame(animate)
   }, [value])
 
+  useEffect(() => {
+    if (inView) runCount()
+  }, [inView, runCount])
+
   return (
-    <div className="text-left" onMouseEnter={runCount}>
+    <div className="text-left" ref={ref}>
       <div className="font-display font-bold mb-0.5" style={{ color: 'var(--ink)', fontSize: '28px', lineHeight: 1, letterSpacing: '-0.03em' }}>
         {format ? format(display) : display.toLocaleString()}<span style={{ color: 'var(--accent)' }}>{suffix}</span>
       </div>
