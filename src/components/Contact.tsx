@@ -53,6 +53,44 @@ export default function Contact() {
           </p>
         </motion.div>
 
+        {/* Target roles strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="border-t border-b py-8 mb-4"
+          style={{ borderColor: 'var(--border)' }}
+        >
+          <div className="flex items-baseline justify-between flex-wrap gap-y-3 mb-6">
+            <p className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+              / {t.contact.positionsTitle}
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+              {t.contact.positionsHint}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {t.contact.positions.map((pos, i) => (
+              <div
+                key={i}
+                className="flex flex-col gap-2 py-1"
+              >
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>
+                    0{i + 1}
+                  </span>
+                  <span className="font-display text-xl font-semibold" style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+                    {pos.role}
+                  </span>
+                </div>
+                <span className="font-mono text-[11px] tracking-[0.05em] pl-7" style={{ color: 'var(--muted)' }}>
+                  {pos.cities}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
         <div className="grid grid-cols-12 gap-12 mt-20">
           {/* Contacts list */}
           <div className="col-span-12 md:col-span-7 space-y-1">

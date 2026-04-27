@@ -2,6 +2,8 @@ import { useRef, useState, useEffect, useCallback } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useLang } from '../i18n/LangContext'
 import { ArrowRight, GithubIcon } from './Icons'
+import { FlipCard } from './FlipCard'
+import type { TranslationDict } from '../i18n/translations'
 
 interface StatDisplay {
   value: number
@@ -51,16 +53,6 @@ export default function Projects() {
   const lastX = useRef(0)
   const lastTime = useRef(0)
   const momentumRef = useRef<number>(0)
-
-  const setupSpotlight = (card: HTMLElement) => {
-    const onMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect()
-      card.style.setProperty('--x', `${e.clientX - rect.left}px`)
-      card.style.setProperty('--y', `${e.clientY - rect.top}px`)
-    }
-    card.addEventListener('mousemove', onMove)
-    return () => card.removeEventListener('mousemove', onMove)
-  }
 
   useEffect(() => {
     const track = trackRef.current
@@ -117,10 +109,16 @@ export default function Projects() {
   }, [])
 
   const scrollTrack = (delta: number) => {
-    cancelAnimationFrame(momentumRef.current)   // stop any ongoing momentum
+    cancelAnimationFrame(momentumRef.current)
     velocity.current = 0
     trackRef.current?.scrollBy({ left: delta, behavior: 'smooth' })
   }
+
+  const cardBaseStyle = {
+    background: 'var(--card-bg)',
+    border: '1px solid var(--border)',
+    borderRadius: '4px',
+  } as const
 
   return (
     <section id="projects" className="relative py-32 overflow-hidden" ref={ref}>
@@ -133,6 +131,9 @@ export default function Projects() {
         >
           <div className="section-eyebrow mb-8">{t.projects.eyebrow}</div>
           <h2 className="section-heading">{t.projects.heading}</h2>
+          <p className="font-mono text-[10px] mt-6 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+            {t.ui.flipHint}
+          </p>
         </motion.div>
 
         <div className="flex gap-2">
@@ -169,133 +170,213 @@ export default function Projects() {
           paddingRight: 'max(32px, calc((100vw - 1400px) / 2 + 32px))',
         }}
       >
-        {/* Card 1 */}
+        {/* Card 1 — TomaNotes */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="project-card flex-shrink-0 p-10 select-none"
-          style={{
-            width: '720px',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
-            borderRadius: '4px',
-          }}
-          ref={el => { if (el) setupSpotlight(el as HTMLElement) }}
+          className="flex-shrink-0 select-none"
+          style={{ width: '720px', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-7">
-              <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
-                {t.projects.project1.period}
-              </div>
-              <h3 className="font-display text-4xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
-                {t.projects.project1.title}
-              </h3>
-              <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-                {t.projects.project1.desc}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {TAGS.map(tag => (
-                  <span key={tag} className="pill">{tag}</span>
-                ))}
-              </div>
-              <a
-                href="https://github.com/idbetterrun/TomaNotes-release"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost inline-flex items-center gap-2 text-xs"
-                style={{ padding: '8px 16px', fontSize: '12px' }}
-              >
-                <GithubIcon size={13} />
-                GitHub →
-              </a>
-            </div>
-
-            <div className="col-span-5 flex flex-col gap-5 justify-center">
-              <div className="font-mono text-[10px] mb-1 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
-                {t.projects.project1.statsTitle}
-              </div>
-              <AnimatedStat value={42000} label={t.projects.project1.s1} suffix="+" />
-              <AnimatedStat value={9000} label={t.projects.project1.s2} />
-              <AnimatedStat value={212} label={t.projects.project1.s3} format={v => (v / 10).toFixed(1)} suffix="%" />
-              <div>
-                <div className="font-display font-bold" style={{ color: 'var(--ink)', fontSize: '28px', lineHeight: 1, letterSpacing: '-0.03em' }}>
-                  95<span style={{ color: 'var(--accent)' }}>%</span>
-                </div>
-                <div className="font-sans text-[11px]" style={{ color: 'var(--muted)' }}>{t.projects.project1.s4}</div>
-              </div>
-            </div>
-          </div>
+          <FlipCard front={<P1Front t={t} />} back={<DetailBack project={t.projects.project1} t={t} />} />
         </motion.div>
 
-        {/* Card 2 */}
+        {/* Card 2 — WeChat */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="project-card flex-shrink-0 p-10 select-none"
-          style={{
-            width: '420px',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
-            borderRadius: '4px',
-          }}
-          ref={el => { if (el) setupSpotlight(el as HTMLElement) }}
+          className="flex-shrink-0 select-none"
+          style={{ width: '420px', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
-          <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
-            {t.projects.project2.period}
-          </div>
-          <h3 className="font-display text-3xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
-            {t.projects.project2.title}
-          </h3>
-          <p className="font-sans text-sm mb-8" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-            {t.projects.project2.desc}
-          </p>
-          <div className="grid grid-cols-2 gap-5">
-            <AnimatedStat value={500} label={t.projects.project2.s1} suffix="+" />
-            <AnimatedStat value={800} label={t.projects.project2.s2} suffix="+" />
-            <AnimatedStat value={1500} label={t.projects.project2.s3} suffix="+" />
-            <AnimatedStat value={60} label={t.projects.project2.s4} suffix="%" />
-          </div>
+          <FlipCard front={<P2Front t={t} />} back={<DetailBack project={t.projects.project2} t={t} />} />
         </motion.div>
 
-        {/* Card 3 */}
+        {/* Card 3 — Challenge Cup */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="project-card flex-shrink-0 p-10 select-none"
-          style={{
-            width: '320px',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
-            borderRadius: '4px',
-          }}
-          ref={el => { if (el) setupSpotlight(el as HTMLElement) }}
+          className="flex-shrink-0 select-none"
+          style={{ width: '420px', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
-          <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
-            {t.projects.project3.period}
-          </div>
-          <h3 className="font-display text-3xl font-bold mb-2" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
-            {t.projects.project3.title}
-          </h3>
-          <p className="font-mono text-[10px] mb-6 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
-            {t.projects.project3.award}
-          </p>
-          <p className="font-sans text-sm mb-8" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-            {t.projects.project3.desc}
-          </p>
-          <div className="pt-6 border-t flex items-center gap-3" style={{ borderColor: 'var(--border)' }}>
-            <span className="font-mono text-xs" style={{ color: 'var(--accent)' }}>★</span>
-            <span className="font-mono text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
-              {t.projects.project3.badge}
-            </span>
-          </div>
+          <FlipCard front={<P3Front t={t} />} back={<DetailBack project={t.projects.project3} t={t} />} />
         </motion.div>
       </div>
     </section>
+  )
+}
+
+/* ---- Front faces ---- */
+
+function P1Front({ t }: { t: TranslationDict }) {
+  return (
+    <div className="p-10">
+      <div className="grid grid-cols-12 gap-8">
+        <div className="col-span-7">
+          <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+            {t.projects.project1.period}
+          </div>
+          <h3 className="font-display text-4xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+            {t.projects.project1.title}
+          </h3>
+          <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
+            {t.projects.project1.desc}
+          </p>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {TAGS.map(tag => (
+              <span key={tag} className="pill">{tag}</span>
+            ))}
+          </div>
+          <a
+            href="https://github.com/idbetterrun/TomaNotes-release"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="btn-ghost inline-flex items-center gap-2 text-xs"
+            style={{ padding: '8px 16px', fontSize: '12px' }}
+          >
+            <GithubIcon size={13} />
+            GitHub →
+          </a>
+        </div>
+
+        <div className="col-span-5 flex flex-col gap-5 justify-center">
+          <div className="font-mono text-[10px] mb-1 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
+            {t.projects.project1.statsTitle}
+          </div>
+          <AnimatedStat value={42000} label={t.projects.project1.s1} suffix="+" />
+          <AnimatedStat value={9000} label={t.projects.project1.s2} />
+          <AnimatedStat value={212} label={t.projects.project1.s3} format={v => (v / 10).toFixed(1)} suffix="%" />
+          <div>
+            <div className="font-display font-bold" style={{ color: 'var(--ink)', fontSize: '28px', lineHeight: 1, letterSpacing: '-0.03em' }}>
+              95<span style={{ color: 'var(--accent)' }}>%</span>
+            </div>
+            <div className="font-sans text-[11px]" style={{ color: 'var(--muted)' }}>{t.projects.project1.s4}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function P2Front({ t }: { t: TranslationDict }) {
+  return (
+    <div className="p-10">
+      <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+        {t.projects.project2.period}
+      </div>
+      <h3 className="font-display text-3xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+        {t.projects.project2.title}
+      </h3>
+      <p className="font-sans text-sm mb-8" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
+        {t.projects.project2.desc}
+      </p>
+      <div className="grid grid-cols-2 gap-5">
+        <AnimatedStat value={500} label={t.projects.project2.s1} suffix="+" />
+        <AnimatedStat value={800} label={t.projects.project2.s2} suffix="+" />
+        <AnimatedStat value={1500} label={t.projects.project2.s3} suffix="+" />
+        <AnimatedStat value={60} label={t.projects.project2.s4} suffix="%" />
+      </div>
+    </div>
+  )
+}
+
+function P3Front({ t }: { t: TranslationDict }) {
+  return (
+    <div className="p-10">
+      <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+        {t.projects.project3.period}
+      </div>
+      <h3 className="font-display text-3xl font-bold mb-2" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+        {t.projects.project3.title}
+      </h3>
+      <p className="font-mono text-[10px] mb-6 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
+        {t.projects.project3.award}
+      </p>
+      <p className="font-sans text-sm mb-8" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
+        {t.projects.project3.desc}
+      </p>
+      <div className="pt-6 border-t flex items-center gap-3" style={{ borderColor: 'var(--border)' }}>
+        <span className="font-mono text-xs" style={{ color: 'var(--accent)' }}>★</span>
+        <span className="font-mono text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
+          {t.projects.project3.badge}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+/* ---- Generic detail back face ---- */
+
+interface ProjectDetail {
+  detail: {
+    stack: string
+    work: readonly string[]
+    highlights: readonly string[]
+  }
+  title: string
+}
+
+function DetailBack({ project, t }: { project: ProjectDetail; t: TranslationDict }) {
+  return (
+    <div
+      className="p-10 h-full"
+      style={{ background: 'var(--bg-alt)', borderRadius: '4px' }}
+    >
+      <div className="flex items-baseline justify-between mb-6">
+        <h3 className="font-display text-2xl font-bold" style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+          {project.title}
+        </h3>
+        <span className="font-mono text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
+          {t.ui.flipBack}
+        </span>
+      </div>
+
+      {/* Stack */}
+      <div className="mb-6">
+        <p className="font-mono text-[10px] mb-2 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+          / {t.projects.detailLabels.stack}
+        </p>
+        <p className="font-mono text-xs" style={{ color: 'var(--ink)' }}>
+          {project.detail.stack}
+        </p>
+      </div>
+
+      {/* Work */}
+      <div className="mb-6">
+        <p className="font-mono text-[10px] mb-3 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+          / {t.projects.detailLabels.work}
+        </p>
+        <ul className="space-y-2">
+          {project.detail.work.map((line, i) => (
+            <li key={i} className="font-sans text-[13px] flex gap-2" style={{ color: 'var(--ink)', lineHeight: 1.55 }}>
+              <span className="font-mono text-[10px] flex-shrink-0 mt-1" style={{ color: 'var(--muted)' }}>
+                0{i + 1}
+              </span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Highlights */}
+      <div>
+        <p className="font-mono text-[10px] mb-3 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+          / {t.projects.detailLabels.highlights}
+        </p>
+        <ul className="space-y-2">
+          {project.detail.highlights.map((line, i) => (
+            <li key={i} className="font-sans text-[13px] flex gap-2" style={{ color: 'var(--ink)', lineHeight: 1.55 }}>
+              <span className="font-mono text-[10px] flex-shrink-0 mt-1" style={{ color: 'var(--accent)' }}>◆</span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   )
 }

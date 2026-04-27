@@ -64,6 +64,30 @@ export default function About() {
               </p>
             </div>
 
+            {/* Strengths — 6 bullets pulled from resume */}
+            <div className="mt-14">
+              <p className="font-mono text-[10px] mb-5 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+                / {t.about.strengthsTitle}
+              </p>
+              <ul className="space-y-3">
+                {t.about.strengths.map((line, i) => (
+                  <li
+                    key={i}
+                    className="font-sans text-[14px] flex gap-3"
+                    style={{ color: 'var(--ink)', lineHeight: 1.6 }}
+                  >
+                    <span
+                      className="font-mono text-[10px] flex-shrink-0 mt-1.5"
+                      style={{ color: 'var(--muted)' }}
+                    >
+                      0{i + 1}
+                    </span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div
               className="mt-12 pt-8 flex flex-wrap items-center gap-4 border-t"
               style={{ borderColor: 'var(--border)' }}

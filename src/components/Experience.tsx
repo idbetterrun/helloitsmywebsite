@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useLang } from '../i18n/LangContext'
+import { FlipCard } from './FlipCard'
 
 export default function Experience() {
   const { t } = useLang()
@@ -30,36 +31,13 @@ export default function Experience() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="timeline-item flex gap-10 py-8 border-b group"
+                  className="border-b"
                   style={{ borderColor: 'var(--border)' }}
                 >
-                  <div
-                    className="timeline-time font-mono text-[11px] w-28 flex-shrink-0 pt-1 whitespace-pre-line transition-colors tracking-[0.1em]"
-                    style={{ color: 'var(--muted)' }}
-                  >
-                    {item.date}
-                  </div>
-
-                  <div className="timeline-content flex-1">
-                    <div className="flex items-baseline gap-3 mb-1.5 flex-wrap">
-                      <h3 className="font-sans font-semibold text-lg" style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                        {item.title}
-                      </h3>
-                      {(item as any).subtitle && (
-                        <span className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: 'var(--muted)' }}>
-                          {(item as any).subtitle}
-                        </span>
-                      )}
-                    </div>
-                    <p className="font-sans text-sm mb-3" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
-                      {item.desc}
-                    </p>
-                    <div className="flex gap-2">
-                      {item.tags.map(tag => (
-                        <span key={tag} className="pill">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
+                  <FlipCard
+                    front={<TimelineFront item={item} />}
+                    back={<TimelineBack item={item} t={t} />}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -108,5 +86,99 @@ export default function Experience() {
         </div>
       </div>
     </section>
+  )
+}
+
+/* ----- timeline item faces ----- */
+
+type Item = (typeof import('../i18n/translations').translations.zh.experience.items)[number]
+
+function TimelineFront({ item }: { item: Item }) {
+  return (
+    <div className="timeline-item flex gap-10 py-8 group">
+      <div
+        className="timeline-time font-mono text-[11px] w-28 flex-shrink-0 pt-1 whitespace-pre-line transition-colors tracking-[0.1em]"
+        style={{ color: 'var(--muted)' }}
+      >
+        {item.date}
+      </div>
+
+      <div className="timeline-content flex-1">
+        <div className="flex items-baseline gap-3 mb-1.5 flex-wrap">
+          <h3 className="font-sans font-semibold text-lg" style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            {item.title}
+          </h3>
+          {item.subtitle && (
+            <span className="font-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: 'var(--muted)' }}>
+              {item.subtitle}
+            </span>
+          )}
+        </div>
+        <p className="font-sans text-sm mb-3" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
+          {item.desc}
+        </p>
+        <div className="flex gap-2 flex-wrap items-center">
+          {item.tags.map(tag => (
+            <span key={tag} className="pill">{tag}</span>
+          ))}
+          <span
+            className="font-mono text-[10px] tracking-[0.18em] uppercase ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+            style={{ color: 'var(--accent)' }}
+          >
+            FLIP →
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TimelineBack({ item, t }: { item: Item; t: typeof import('../i18n/translations').translations.zh }) {
+  return (
+    <div
+      className="flex gap-10 py-8 px-6 -mx-6 rounded"
+      style={{ background: 'var(--bg-alt)' }}
+    >
+      <div
+        className="font-mono text-[11px] w-28 flex-shrink-0 pt-1 whitespace-pre-line tracking-[0.1em]"
+        style={{ color: 'var(--accent)' }}
+      >
+        {item.date}
+      </div>
+
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <p className="font-mono text-[10px] mb-3 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+            / {t.experience.detailLabels.responsibilities}
+          </p>
+          <ul className="space-y-2">
+            {item.detail.responsibilities.map((line, idx) => (
+              <li key={idx} className="font-sans text-[13px] flex gap-2" style={{ color: 'var(--ink)', lineHeight: 1.55 }}>
+                <span style={{ color: 'var(--muted)' }} className="font-mono text-[10px] flex-shrink-0 mt-1">
+                  0{idx + 1}
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="font-mono text-[10px] mb-3 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
+            / {t.experience.detailLabels.achievements}
+          </p>
+          <ul className="space-y-2">
+            {item.detail.achievements.map((line, idx) => (
+              <li key={idx} className="font-sans text-[13px] flex gap-2" style={{ color: 'var(--ink)', lineHeight: 1.55 }}>
+                <span style={{ color: 'var(--accent)' }} className="font-mono text-[10px] flex-shrink-0 mt-1">
+                  ◆
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
   )
 }
