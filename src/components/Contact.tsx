@@ -22,20 +22,20 @@ export default function Contact() {
       setCopied(item.value)
       setTimeout(() => setCopied(null), 1500)
     } else if (item.action === 'email') {
-      window.location.href = `mailto:${item.value}`
+      window.location.assign(`mailto:${item.value}`)
     }
   }
 
   return (
-    <section id="contact" className="relative py-32 overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section id="contact" className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16 max-w-4xl"
+          className="mb-12 md:mb-16 max-w-4xl"
         >
-          <div className="section-eyebrow mb-8">{t.contact.eyebrow}</div>
+          <div className="section-eyebrow mb-6 md:mb-8">{t.contact.eyebrow}</div>
           <h2 className="section-heading" style={{ lineHeight: 1.15 }}>
             {/* Line 1: rotating — isolated so width changes don't reflow line 2 */}
             <span style={{ display: 'block' }}>
@@ -61,7 +61,7 @@ export default function Contact() {
           className="border-t border-b py-8 mb-4"
           style={{ borderColor: 'var(--border)' }}
         >
-          <div className="flex items-baseline justify-between flex-wrap gap-y-3 mb-6">
+          <div className="flex items-baseline justify-between flex-wrap gap-y-3 gap-x-6 mb-6">
             <p className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
               / {t.contact.positionsTitle}
             </p>
@@ -91,7 +91,7 @@ export default function Contact() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-12 mt-20">
+        <div className="grid grid-cols-12 gap-8 lg:gap-12 mt-12 md:mt-20">
           {/* Contacts list */}
           <div className="col-span-12 md:col-span-7 space-y-1">
             {items.map((item, i) => (
@@ -101,26 +101,26 @@ export default function Contact() {
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 onClick={() => handleClick(item)}
-                className="w-full flex items-center gap-8 py-6 text-left group border-b transition-all"
+                className="w-full flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8 py-5 sm:py-6 text-left group border-b transition-all"
                 style={{ borderColor: 'var(--border)' }}
               >
-                <span className="font-mono text-[10px] w-12 tracking-[0.2em] uppercase flex-shrink-0" style={{ color: 'var(--muted)' }}>
+                <span className="font-mono text-[10px] sm:w-12 tracking-[0.2em] uppercase flex-shrink-0" style={{ color: 'var(--muted)' }}>
                   / {String(i + 1).padStart(2, '0')}
                 </span>
-                <span className="font-mono text-[10px] w-20 tracking-[0.2em] uppercase flex-shrink-0" style={{ color: 'var(--muted)' }}>
+                <span className="font-mono text-[10px] sm:w-20 tracking-[0.2em] uppercase flex-shrink-0" style={{ color: 'var(--muted)' }}>
                   {item.label}
                 </span>
                 <span
-                  className="font-display text-2xl md:text-3xl flex-1 transition-colors font-medium"
+                  className="font-display text-xl sm:text-2xl md:text-3xl flex-1 transition-colors font-medium break-all"
                   style={{
                     color: copied === item.value ? 'var(--accent)' : 'var(--ink)',
-                    letterSpacing: '-0.02em',
+                    letterSpacing: 0,
                   }}
                 >
                   {copied === item.value ? `${t.contact.copied} ✓` : item.value}
                 </span>
                 <span
-                  className="font-mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity tracking-[0.18em] uppercase"
+                  className="hidden sm:inline font-mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity tracking-[0.18em] uppercase"
                   style={{ color: 'var(--muted)' }}
                 >
                   {item.action === 'copy' ? t.contact.copy : t.contact.sendEmail} →

@@ -10,9 +10,12 @@ import Experience from './components/Experience'
 import Contact from './components/Contact'
 import AIAssistant from './components/AIAssistant'
 import EasterEgg from './components/EasterEgg'
+import { useDeviceProfile } from './hooks/useDeviceProfile'
 import './styles/globals.css'
 
 export default function App() {
+  useDeviceProfile()
+
   const [darkMode, setDarkMode] = useState(false)
   const [flashVisible, setFlashVisible] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -44,11 +47,12 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    let lenis: any
+    let lenis: { raf: (time: number) => void; destroy: () => void } | undefined
     import('lenis').then(({ default: Lenis }) => {
-      lenis = new Lenis({ lerp: 0.1 })
+      const instance = new Lenis({ lerp: 0.1 })
+      lenis = instance
       const raf = (time: number) => {
-        lenis.raf(time)
+        instance.raf(time)
         requestAnimationFrame(raf)
       }
       requestAnimationFrame(raf)

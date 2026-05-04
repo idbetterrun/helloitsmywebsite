@@ -16,14 +16,14 @@ export default function About() {
   const titles = [t.about.toolsTitle1, t.about.toolsTitle2, t.about.toolsTitle3]
 
   return (
-    <section id="about" className="relative py-32 overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section id="about" className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Eyebrow + heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 max-w-3xl"
+          className="mb-12 md:mb-20 max-w-3xl"
         >
           <div className="section-eyebrow mb-8">{t.about.eyebrow}</div>
           <h2 className="section-heading">{t.about.heading}</h2>
@@ -42,7 +42,7 @@ export default function About() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-12 gap-10 lg:gap-12 items-start">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -51,7 +51,7 @@ export default function About() {
           >
             <div className="max-w-3xl">
               <p
-                className="font-sans text-[22px]"
+                className="font-sans text-lg md:text-[22px]"
                 style={{ color: 'var(--ink)', lineHeight: 1.65, fontWeight: 450 }}
               >
                 {t.about.bio}
@@ -65,7 +65,7 @@ export default function About() {
             </div>
 
             {/* Strengths — 6 bullets pulled from resume */}
-            <div className="mt-14">
+            <div className="mt-10 md:mt-14">
               <p className="font-mono text-[10px] mb-5 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
                 / {t.about.strengthsTitle}
               </p>
@@ -114,7 +114,7 @@ export default function About() {
             className="col-span-12 lg:col-span-5"
           >
             <div
-              className="p-8 md:p-10"
+              className="p-5 sm:p-8 md:p-10"
               style={{ background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '6px' }}
             >
               <div className="mb-10">

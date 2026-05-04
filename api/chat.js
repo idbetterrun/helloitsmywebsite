@@ -15,8 +15,11 @@ const SYSTEM_PROMPT = `你是谭清华的个人网站AI助手。谭清华是一�
 
 只回答关于谭清华的问题。用中文回答，简洁友好。如果被问到无关问题，礼貌引导回到介绍谭清华。`
 
-const MINIMAX_API_URL = 'https://api.minimax.io/v1/chat/completions'
-const MINIMAX_MODEL = process.env.MINIMAX_MODEL || 'MiniMax-M2.7'
+const DOUBAO_API_URL =
+  process.env.DOUBAO_API_URL ||
+  'https://ark.cn-beijing.volces.com/api/v3/chat/completions'
+const DOUBAO_MODEL =
+  process.env.DOUBAO_MODEL || 'doubao-seed-2-0-lite-260215'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -30,31 +33,33 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (!process.env.MINIMAX_API_KEY) {
-      return res.status(500).json({ error: 'Missing MINIMAX_API_KEY' })
+    const apiKey = process.env.ARK_API_KEY || process.env.VOLCENGINE_API_KEY
+
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Missing ARK_API_KEY' })
     }
 
-    const response = await fetch(MINIMAX_API_URL, {
+    const response = await fetch(DOUBAO_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.MINIMAX_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: MINIMAX_MODEL,
+        model: DOUBAO_MODEL,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           ...messages,
         ],
         stream: false,
-        max_completion_tokens: 300,
+        max_tokens: 300,
       }),
     })
 
     if (!response.ok) {
       const errorText = await response.text()
       return res.status(response.status).json({
-        error: `MiniMax API error: ${response.status}`,
+        error: `Doubao API error: ${response.status}`,
         details: errorText,
       })
     }

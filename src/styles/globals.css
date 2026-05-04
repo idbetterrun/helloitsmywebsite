@@ -40,7 +40,7 @@ body {
   font-family: 'Inter', 'Noto Sans SC', sans-serif;
   font-feature-settings: 'cv11', 'ss01', 'ss03';
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
   -webkit-font-smoothing: antialiased;
@@ -194,6 +194,62 @@ body {
   line-height: 1;
   letter-spacing: -0.04em;
   color: var(--ink);
+}
+
+@media (max-width: 767px) {
+  html {
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-wrap: anywhere;
+  }
+
+  .font-display,
+  .font-grotesk {
+    letter-spacing: 0;
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    gap: 10px;
+  }
+
+  .section-eyebrow::before {
+    width: 18px;
+  }
+
+  .section-heading {
+    font-size: clamp(30px, 11vw, 44px);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .btn-primary,
+  .btn-ghost,
+  .btn-glass,
+  .btn-glass-outline {
+    justify-content: center;
+    min-height: 44px;
+    padding: 12px 18px;
+  }
+
+  .pill {
+    max-width: 100%;
+  }
+
+  .watermark-name {
+    font-size: clamp(52px, 18vw, 80px);
+    letter-spacing: 0;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .touch-layout .group-hover\:opacity-100 {
+    opacity: 1;
+  }
 }
 
 /* Marquee — animation controlled by JS, no CSS hover speed change to avoid jump */

@@ -20,12 +20,14 @@ export default function AIAssistant() {
     : null
 
   useEffect(() => {
-    setMessages([{ role: 'assistant', content: t.ai.welcome }])
+    const id = window.setTimeout(() => {
+      setMessages([{ role: 'assistant', content: t.ai.welcome }])
+    }, 0)
+    return () => window.clearTimeout(id)
   }, [t.ai.welcome])
 
   useEffect(() => {
     if (!lastAssistantMsg) return
-    setDisplayedText('')
     let i = 0
     const interval = setInterval(() => {
       if (i <= lastAssistantMsg.length) {
@@ -74,7 +76,7 @@ export default function AIAssistant() {
   return (
     <>
       <motion.div
-        className="fixed bottom-6 right-6 z-50 flex items-center"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
@@ -119,10 +121,10 @@ export default function AIAssistant() {
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             style={{
               position: 'fixed',
-              bottom: '80px',
-              right: '24px',
-              width: '380px',
-              height: '500px',
+              bottom: '76px',
+              right: '16px',
+              width: 'min(380px, calc(100vw - 32px))',
+              height: 'min(500px, calc(100dvh - 104px))',
               zIndex: 50,
               background: 'var(--card-bg)',
               border: '1px solid var(--border)',
@@ -149,7 +151,7 @@ export default function AIAssistant() {
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--ink)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
               >
-                ✕
+                X
               </button>
             </div>
 
@@ -207,7 +209,7 @@ export default function AIAssistant() {
                     borderRadius: '2px',
                   }}
                 >
-                  ↑
+                  ^
                 </button>
               </div>
             </div>

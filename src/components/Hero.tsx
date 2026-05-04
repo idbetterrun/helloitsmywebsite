@@ -74,14 +74,14 @@ export default function Hero() {
       <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.52)' }} />
 
       {/* Center content */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-8">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pt-20 pb-8">
 
         {/* Eyebrow label */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-mono text-[10px] tracking-[0.25em] uppercase mb-10"
+          className="font-mono text-[10px] tracking-[0.18em] sm:tracking-[0.25em] uppercase mb-6 sm:mb-10"
           style={{ color: 'rgba(255,255,255,0.4)' }}
         >
           {t.hero.eyebrow}
@@ -92,13 +92,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.25, ease: [0.23, 1, 0.32, 1] }}
-          className="font-serif font-bold mb-14"
+          className="font-serif font-bold mb-8 sm:mb-14"
           style={{
-            fontSize: 'clamp(28px, 4vw, 54px)',
+            fontSize: 'clamp(26px, 9vw, 54px)',
             color: '#ffffff',
-            letterSpacing: '-0.02em',
+            letterSpacing: 0,
             maxWidth: '860px',
-            lineHeight: 1.25,
+            lineHeight: 1.2,
           }}
         >
           {/* Line 1: rotating word */}
@@ -135,12 +135,12 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1 }}
-        className="relative z-10 pt-4 pb-8 border-t overflow-hidden"
+          className="relative z-10 pt-4 pb-6 sm:pb-8 border-t overflow-hidden"
         style={{ borderColor: 'rgba(255,255,255,0.1)' }}
         onMouseEnter={() => { speedRef.current = 0.4 }}
         onMouseLeave={() => { speedRef.current = 1; setActiveTool(null) }}
       >
-        <div className="max-w-[1400px] mx-auto px-8 mb-3">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-3">
           <span
             className="font-mono text-[10px] tracking-[0.22em] uppercase"
             style={{ color: 'rgba(255,255,255,0.3)' }}
@@ -157,7 +157,7 @@ export default function Hero() {
             {[...TOOLS, ...TOOLS].map((tool, i) => (
               <span
                 key={i}
-                className="font-grotesk text-2xl px-6 whitespace-nowrap font-medium select-none cursor-default"
+                className="font-grotesk text-xl sm:text-2xl px-4 sm:px-6 whitespace-nowrap font-medium select-none cursor-default"
                 style={{
                   color: activeTool === tool ? 'var(--accent)' : 'rgba(255,255,255,0.9)',
                   opacity:

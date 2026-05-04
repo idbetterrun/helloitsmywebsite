@@ -24,25 +24,25 @@ export default function Footer() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <footer ref={ref} className="relative pt-24 pb-8 overflow-hidden border-t" style={{ borderColor: 'var(--border)' }}>
-      <div className="max-w-[1400px] mx-auto px-8">
+    <footer ref={ref} className="relative pt-16 md:pt-24 pb-8 overflow-hidden border-t" style={{ borderColor: 'var(--border)' }}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* CTA line */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 max-w-3xl"
+          className="mb-12 md:mb-20 max-w-3xl"
         >
           <div className="font-mono text-[10px] mb-4 tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
             // OUTRO
           </div>
-          <p className="font-display text-3xl md:text-5xl font-bold leading-tight" style={{ color: 'var(--ink)', letterSpacing: '-0.04em' }}>
+          <p className="font-display text-3xl md:text-5xl font-bold leading-tight" style={{ color: 'var(--ink)', letterSpacing: 0 }}>
             {t.footer.cta}
           </p>
         </motion.div>
 
         {/* Links + Socials grid */}
-        <div className="grid grid-cols-12 gap-8 pb-20">
+        <div className="grid grid-cols-12 gap-8 pb-12 md:pb-20">
           {/* Quick Links */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -110,8 +110,8 @@ export default function Footer() {
             </p>
             <a
               href="mailto:acaimaomao@gmail.com"
-              className="font-display text-2xl md:text-3xl font-medium link-underline block"
-              style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+              className="font-display text-xl sm:text-2xl md:text-3xl font-medium link-underline block break-all"
+              style={{ color: 'var(--ink)', letterSpacing: 0 }}
             >
               acaimaomao@gmail.com
             </a>
@@ -134,7 +134,7 @@ export default function Footer() {
         </motion.div>
 
         {/* Bottom bar */}
-        <div className="flex justify-between items-center pt-8 mt-4 border-t" style={{ borderColor: 'var(--border)' }}>
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 pt-8 mt-4 border-t" style={{ borderColor: 'var(--border)' }}>
           <p className="font-mono text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
             {t.footer.year}
           </p>

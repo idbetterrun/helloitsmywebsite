@@ -9,19 +9,19 @@ export default function Experience() {
   const inView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="experience" className="relative py-32 overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section id="experience" className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 max-w-3xl"
+          className="mb-12 md:mb-20 max-w-3xl"
         >
           <div className="section-eyebrow mb-8">{t.experience.eyebrow}</div>
           <h2 className="section-heading">{t.experience.heading}</h2>
         </motion.div>
 
-        <div className="grid grid-cols-12 gap-12">
+        <div className="grid grid-cols-12 gap-10 lg:gap-12">
           {/* Timeline */}
           <div className="col-span-12 lg:col-span-8">
             <div className="space-y-0">
@@ -95,15 +95,15 @@ type Item = (typeof import('../i18n/translations').translations.zh.experience.it
 
 function TimelineFront({ item }: { item: Item }) {
   return (
-    <div className="timeline-item flex gap-10 py-8 group">
+    <div className="timeline-item flex flex-col sm:flex-row gap-4 sm:gap-10 py-7 sm:py-8 group">
       <div
-        className="timeline-time font-mono text-[11px] w-28 flex-shrink-0 pt-1 whitespace-pre-line transition-colors tracking-[0.1em]"
+        className="timeline-time font-mono text-[11px] sm:w-28 flex-shrink-0 pt-1 whitespace-pre-line transition-colors tracking-[0.1em]"
         style={{ color: 'var(--muted)' }}
       >
         {item.date}
       </div>
 
-      <div className="timeline-content flex-1">
+      <div className="timeline-content flex-1 min-w-0">
         <div className="flex items-baseline gap-3 mb-1.5 flex-wrap">
           <h3 className="font-sans font-semibold text-lg" style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             {item.title}
@@ -122,7 +122,7 @@ function TimelineFront({ item }: { item: Item }) {
             <span key={tag} className="pill">{tag}</span>
           ))}
           <span
-            className="font-mono text-[10px] tracking-[0.18em] uppercase ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
+            className="hidden sm:inline font-mono text-[10px] tracking-[0.18em] uppercase ml-auto opacity-0 group-hover:opacity-100 transition-opacity"
             style={{ color: 'var(--accent)' }}
           >
             FLIP →
@@ -136,17 +136,17 @@ function TimelineFront({ item }: { item: Item }) {
 function TimelineBack({ item, t }: { item: Item; t: typeof import('../i18n/translations').translations.zh }) {
   return (
     <div
-      className="flex gap-10 py-8 px-6 -mx-6 rounded"
+      className="flex flex-col sm:flex-row gap-5 sm:gap-10 py-7 sm:py-8 px-4 sm:px-6 -mx-4 sm:-mx-6 rounded"
       style={{ background: 'var(--bg-alt)' }}
     >
       <div
-        className="font-mono text-[11px] w-28 flex-shrink-0 pt-1 whitespace-pre-line tracking-[0.1em]"
+        className="font-mono text-[11px] sm:w-28 flex-shrink-0 pt-1 whitespace-pre-line tracking-[0.1em]"
         style={{ color: 'var(--accent)' }}
       >
         {item.date}
       </div>
 
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 min-w-0">
         <div>
           <p className="font-mono text-[10px] mb-3 tracking-[0.2em] uppercase" style={{ color: 'var(--accent)' }}>
             / {t.experience.detailLabels.responsibilities}

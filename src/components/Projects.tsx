@@ -126,8 +126,8 @@ export default function Projects() {
   } as const
 
   return (
-    <section id="projects" className="relative py-32 overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto px-8 mb-16 flex items-end justify-between">
+    <section id="projects" className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-10 md:mb-16 flex items-end justify-between gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -141,22 +141,24 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           <button
             onClick={() => scrollTrack(-500)}
-            className="w-11 h-11 flex items-center justify-center rounded-full border transition-all"
+            className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full border transition-all"
             style={{ borderColor: 'var(--border)', color: 'var(--ink)' }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
             onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+            aria-label="Previous project"
           >
             <ArrowRight size={14} className="rotate-180" />
           </button>
           <button
             onClick={() => scrollTrack(500)}
-            className="w-11 h-11 flex items-center justify-center rounded-full border transition-all"
+            className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full border transition-all"
             style={{ borderColor: 'var(--border)', color: 'var(--ink)' }}
             onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--ink)')}
             onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+            aria-label="Next project"
           >
             <ArrowRight size={14} />
           </button>
@@ -171,8 +173,9 @@ export default function Projects() {
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
           cursor: 'grab',
-          paddingLeft: 'max(32px, calc((100vw - 1400px) / 2 + 32px))',
-          paddingRight: 'max(32px, calc((100vw - 1400px) / 2 + 32px))',
+          paddingLeft: 'max(16px, calc((100vw - 1400px) / 2 + 32px))',
+          paddingRight: 'max(16px, calc((100vw - 1400px) / 2 + 32px))',
+          scrollSnapType: 'x mandatory',
         }}
       >
         {/* Card 1 — TomaNotes */}
@@ -181,7 +184,7 @@ export default function Projects() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           className="flex-shrink-0 select-none"
-          style={{ width: '720px', ...cardBaseStyle }}
+          style={{ width: 'min(720px, calc(100vw - 32px))', scrollSnapAlign: 'start', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
           <FlipCard front={<P1Front t={t} />} back={<DetailBack project={t.projects.project1} t={t} />} />
@@ -193,7 +196,7 @@ export default function Projects() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="flex-shrink-0 select-none"
-          style={{ width: '420px', ...cardBaseStyle }}
+          style={{ width: 'min(420px, calc(100vw - 32px))', scrollSnapAlign: 'start', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
           <FlipCard front={<P2Front t={t} />} back={<DetailBack project={t.projects.project2} t={t} />} />
@@ -205,7 +208,7 @@ export default function Projects() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex-shrink-0 select-none"
-          style={{ width: '420px', ...cardBaseStyle }}
+          style={{ width: 'min(420px, calc(100vw - 32px))', scrollSnapAlign: 'start', ...cardBaseStyle }}
           whileHover={{ y: -4 }}
         >
           <FlipCard front={<P3Front t={t} />} back={<DetailBack project={t.projects.project3} t={t} />} />
@@ -219,13 +222,13 @@ export default function Projects() {
 
 function P1Front({ t }: { t: TranslationDict }) {
   return (
-    <div className="p-10">
-      <div className="grid grid-cols-12 gap-8">
-        <div className="col-span-7">
+    <div className="p-5 sm:p-10">
+      <div className="grid grid-cols-12 gap-6 sm:gap-8">
+        <div className="col-span-12 sm:col-span-7">
           <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
             {t.projects.project1.period}
           </div>
-          <h3 className="font-display text-4xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+          <h3 className="font-display text-3xl sm:text-4xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: 0 }}>
             {t.projects.project1.title}
           </h3>
           <p className="font-sans text-sm mb-6" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
@@ -249,7 +252,7 @@ function P1Front({ t }: { t: TranslationDict }) {
           </a>
         </div>
 
-        <div className="col-span-5 flex flex-col gap-5 justify-center">
+        <div className="col-span-12 sm:col-span-5 grid grid-cols-2 sm:flex sm:flex-col gap-5 justify-center">
           <div className="font-mono text-[10px] mb-1 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
             {t.projects.project1.statsTitle}
           </div>
@@ -270,11 +273,11 @@ function P1Front({ t }: { t: TranslationDict }) {
 
 function P2Front({ t }: { t: TranslationDict }) {
   return (
-    <div className="p-10">
+    <div className="p-5 sm:p-10">
       <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
         {t.projects.project2.period}
       </div>
-      <h3 className="font-display text-3xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+      <h3 className="font-display text-2xl sm:text-3xl font-bold mb-5" style={{ color: 'var(--ink)', letterSpacing: 0 }}>
         {t.projects.project2.title}
       </h3>
       <p className="font-sans text-sm mb-8" style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
@@ -292,11 +295,11 @@ function P2Front({ t }: { t: TranslationDict }) {
 
 function P3Front({ t }: { t: TranslationDict }) {
   return (
-    <div className="p-10">
+    <div className="p-5 sm:p-10">
       <div className="font-mono text-[10px] mb-4 tracking-[0.18em] uppercase" style={{ color: 'var(--muted)' }}>
         {t.projects.project3.period}
       </div>
-      <h3 className="font-display text-3xl font-bold mb-2" style={{ color: 'var(--ink)', letterSpacing: '-0.03em' }}>
+      <h3 className="font-display text-2xl sm:text-3xl font-bold mb-2" style={{ color: 'var(--ink)', letterSpacing: 0 }}>
         {t.projects.project3.title}
       </h3>
       <p className="font-mono text-[10px] mb-6 tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>
@@ -329,11 +332,11 @@ interface ProjectDetail {
 function DetailBack({ project, t }: { project: ProjectDetail; t: TranslationDict }) {
   return (
     <div
-      className="p-10 h-full"
+      className="p-5 sm:p-10 h-full"
       style={{ background: 'var(--bg-alt)', borderRadius: '4px' }}
     >
-      <div className="flex items-baseline justify-between mb-6">
-        <h3 className="font-display text-2xl font-bold" style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+      <div className="flex items-baseline justify-between gap-4 mb-6">
+        <h3 className="font-display text-xl sm:text-2xl font-bold" style={{ color: 'var(--ink)', letterSpacing: 0 }}>
           {project.title}
         </h3>
         <span className="font-mono text-[10px] tracking-[0.18em] uppercase" style={{ color: 'var(--accent)' }}>

@@ -28,6 +28,12 @@ export const ArrowRight = ({ size = 16, className = '' }: IconProps) => (
   </svg>
 )
 
+export const MenuIcon = ({ size = 16, className = '' }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </svg>
+)
+
 export const InstagramIcon = ({ size = 18, className = '' }: IconProps) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <rect x="3" y="3" width="18" height="18" rx="5" />

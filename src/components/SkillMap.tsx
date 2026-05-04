@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useLang } from '../i18n/LangContext'
 
@@ -91,7 +91,7 @@ export default function SkillMap() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [detailNode, setDetailNode] = useState<SkillNode>(SKILL_NODES[0])
 
-  const positions = Object.fromEntries(SKILL_NODES.map(n => [n.id, nodePos(n)]))
+  const positions = useMemo(() => Object.fromEntries(SKILL_NODES.map(n => [n.id, nodePos(n)])), [])
 
   const isConnected = (id: string) => {
     if (!hoveredId) return false
@@ -105,26 +105,26 @@ export default function SkillMap() {
   const desc = (n: SkillNode) => (lang === 'zh' ? n.desc.zh : n.desc.en)
 
   return (
-    <section id="skills" className="relative py-32 overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section id="skills" className="relative py-20 md:py-32 overflow-hidden" ref={ref}>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-20 max-w-3xl"
+          className="mb-12 md:mb-20 max-w-3xl"
         >
           <div className="section-eyebrow mb-8">{t.skills.eyebrow}</div>
           <h2 className="section-heading">{t.skills.heading}</h2>
         </motion.div>
 
-        <div className="flex gap-16 items-start flex-wrap lg:flex-nowrap">
+        <div className="flex gap-10 lg:gap-16 items-start flex-wrap lg:flex-nowrap">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7 }}
-            className="flex-shrink-0 mx-auto"
+            className="w-full max-w-[560px] flex-shrink-0 mx-auto"
           >
-            <svg width={560} height={560} viewBox="0 0 560 560">
+            <svg className="w-full h-auto" viewBox="0 0 560 560" role="img" aria-label={t.skills.heading}>
               {RING_RADII.map((r, i) => (
                 <circle
                   key={i}
@@ -169,6 +169,7 @@ export default function SkillMap() {
                     }}
                     onMouseEnter={() => { setHoveredId(node.id); setDetailNode(node) }}
                     onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => setDetailNode(node)}
                   >
                     <circle
                       cx={pos.x} cy={pos.y}
@@ -198,7 +199,7 @@ export default function SkillMap() {
           </motion.div>
 
           {/* Detail card */}
-          <div className="flex-1 pt-4 min-w-[280px]">
+          <div className="flex-1 pt-0 lg:pt-4 min-w-0 w-full">
             <p className="font-mono text-[10px] mb-6 tracking-[0.2em] uppercase" style={{ color: 'var(--muted)' }}>
               {hoveredId ? `// ${t.skills.currentNode}` : `// ${t.skills.hint}`}
             </p>
@@ -208,7 +209,7 @@ export default function SkillMap() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
-              className="p-8 crop-frame"
+              className="p-5 sm:p-8 crop-frame"
               style={{ background: 'var(--card-bg)', border: '1px solid var(--border)' }}
             >
               <span className="crop-tr" />
